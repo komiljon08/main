@@ -25,17 +25,14 @@ class TopTableGridRow extends StatelessWidget {
         log(state.nextIndex.toString());
         return GestureDetector(
           onTap: () {
+            context.read<FocusNodesProvider>().focusNodeBottomPanel.unfocus();
             context
                 .read<TopSelectionBloc>()
                 .add(TopSelectionOnClick(currentIndex: index));
-            context
-                .read<FocusNodesProvider>()
-                .focusNodeTopPanel
-                .requestFocus();
+            context.read<FocusNodesProvider>().focusNodeTopPanel.requestFocus();
           },
           child: ColoredBox(
-            color:
-                state.nextIndex == index ? Colors.blue : Colors.transparent,
+            color: state.nextIndex == index ? Colors.blue : Colors.transparent,
             child: SizedBox(
               height: 40,
               child: Row(

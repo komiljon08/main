@@ -14,14 +14,13 @@ class BottomGridRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final selectorCubit = BlocProvider.of<SelectorBloC>(context);
     return BlocBuilder<SelectorBloC, SelectorBloCState>(
-      bloc: selectorCubit,
+    
       builder: (context, state) {
         SelectorBloCIndexState selector =
-            selectorCubit.state as SelectorBloCIndexState;
+            state as SelectorBloCIndexState;
 
-        state as SelectorBloCIndexState;
+     
 
         return RawKeyboardListener(
           focusNode: context.read<FocusNodesProvider>().focusNodeBottomPanel,
@@ -29,16 +28,16 @@ class BottomGridRow extends StatelessWidget {
               context.read<FocusNodesProvider>().focusNodeBottomPanel.hasFocus,
           onKey: (value) {
             if (value.isKeyPressed(LogicalKeyboardKey.arrowDown)) {
-              selectorCubit
+         context.read<SelectorBloC>()    
                   .add(SelectorKeyDownEvent(currentIndex: state.currentIndex));
             } else if (value.isKeyPressed(LogicalKeyboardKey.arrowUp)) {
-              selectorCubit
+               context.read<SelectorBloC>()
                   .add(SelectorKeyUpEvent(currentIndex: state.currentIndex));
             }
           },
           child: GestureDetector(
             onTap: () {
-              selectorCubit.add(SelectorClickEvent(currentIndex: index));
+             context.read<SelectorBloC>().add(SelectorClickEvent(currentIndex: index));
               context
                   .read<FocusNodesProvider>()
                   .focusNodeBottomPanel

@@ -33,25 +33,29 @@ class MainPanel extends StatelessWidget {
     checkButtonsBloC.add(CheckButtonOnLoad());
 
     ServicesBinding.instance.keyboard.addHandler((KeyEvent keyEvent) {
-      if ((RegExp("[0-9a-zA-Z]").hasMatch(
-                  keyEvent.character == null ? "" : keyEvent.character!) ||
-              RegExp("[0-9а-яА-Я]").hasMatch(
-                  keyEvent.character == null ? "" : keyEvent.character!)) &&
+      if ((RegExp("[0-9a-zA-Zа-яА-Я]").hasMatch(keyEvent.character ?? "")) &&
           keyEvent is KeyDownEvent) {
         if (!focusNodes.focusNodeQtyPanel.hasFocus) {
           focusNodes.focusNodeSearchBox.requestFocus();
           return false;
         }
-      } 
-      else if(keyEvent.logicalKey == LogicalKeyboardKey.arrowUp &&
-          keyEvent is KeyDownEvent){
-       sellPanelBloc.state.sellPanel[context.read<TabButtonIndexCubit>().state.slideIndex].topSelectionBloc.add(TopSelectionUp());   
-      }
-      else if(keyEvent.logicalKey == LogicalKeyboardKey.arrowDown &&
-          keyEvent is KeyDownEvent){
-       sellPanelBloc.state.sellPanel[context.read<TabButtonIndexCubit>().state.slideIndex].topSelectionBloc.add(TopSelectionDown());
-      }
-      else if (keyEvent.logicalKey == LogicalKeyboardKey.enter &&
+      } else if (keyEvent.logicalKey == LogicalKeyboardKey.arrowUp &&
+          keyEvent is KeyDownEvent &&
+          !focusNodes.focusNodeBottomPanel.hasFocus) {
+        sellPanelBloc
+            .state
+            .sellPanel[context.read<TabButtonIndexCubit>().state.slideIndex]
+            .topSelectionBloc
+            .add(TopSelectionUp());
+      } else if (keyEvent.logicalKey == LogicalKeyboardKey.arrowDown &&
+          keyEvent is KeyDownEvent &&
+          !focusNodes.focusNodeBottomPanel.hasFocus) {
+        sellPanelBloc
+            .state
+            .sellPanel[context.read<TabButtonIndexCubit>().state.slideIndex]
+            .topSelectionBloc
+            .add(TopSelectionDown());
+      } else if (keyEvent.logicalKey == LogicalKeyboardKey.enter &&
           keyEvent is KeyDownEvent) {
         if (focusNodes.focusNodeBottomPanel.hasFocus) {
           showDialog(
@@ -80,6 +84,7 @@ class MainPanel extends StatelessWidget {
         }
       } else if (keyEvent.logicalKey == LogicalKeyboardKey.arrowLeft &&
           keyEvent is KeyDownEvent) {
+        focusNodes.focusNodeBottomPanel.unfocus();
         if (context.read<TabButtonIndexCubit>().state.slideIndex != 0) {
           context.read<TabButtonIndexCubit>().emit(
                 TabButtonIndex(
@@ -117,7 +122,8 @@ class MainPanel extends StatelessWidget {
         }
       } else if (keyEvent.logicalKey == LogicalKeyboardKey.arrowRight &&
           keyEvent is KeyDownEvent) {
-          
+        focusNodes.focusNodeBottomPanel.unfocus();
+
         if (context.read<TabButtonIndexCubit>().state.slideIndex !=
             context.read<CheckButtonsBloc>().state.customeTabButton.length -
                 1) {
