@@ -30,8 +30,6 @@ class SearchPanel extends StatelessWidget {
         } else if (value.logicalKey == LogicalKeyboardKey.arrowUp) {
           context.read<FocusNodesProvider>().focusNodeBottomPanel.unfocus();
           context.read<FocusNodesProvider>().focusNodeTopPanel.requestFocus();
-          context.read<TopSelectionBloc>().add(TopSelectionUp(
-              currentIndex: context.read<TopSelectionBloc>().dataLength));
         }
       },
       child: TextField(
