@@ -25,12 +25,10 @@ class MainPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final checkButtonsBloC = BlocProvider.of<CheckButtonsBloc>(context);
-    final sellPanelBloc = BlocProvider.of<SellPanelBloc>(context);
     final focusNodes = Provider.of<FocusNodesProvider>(context);
 
-    sellPanelBloc.add(const SellPanelOnLoad());
-    checkButtonsBloC.add(CheckButtonOnLoad());
+    context.read<SellPanelBloc>().add(const SellPanelOnLoad());
+    context.read<CheckButtonsBloc>().add(CheckButtonOnLoad());
 
     ServicesBinding.instance.keyboard.addHandler((KeyEvent keyEvent) {
       if ((RegExp("[0-9a-zA-Zа-яА-Я]").hasMatch(keyEvent.character ?? "")) &&
@@ -42,7 +40,7 @@ class MainPanel extends StatelessWidget {
       } else if (keyEvent.logicalKey == LogicalKeyboardKey.arrowUp &&
           keyEvent is KeyDownEvent &&
           !focusNodes.focusNodeBottomPanel.hasFocus) {
-        sellPanelBloc
+        context.read<SellPanelBloc>()
             .state
             .sellPanel[context.read<TabButtonIndexCubit>().state.slideIndex]
             .topSelectionBloc
@@ -50,7 +48,7 @@ class MainPanel extends StatelessWidget {
       } else if (keyEvent.logicalKey == LogicalKeyboardKey.arrowDown &&
           keyEvent is KeyDownEvent &&
           !focusNodes.focusNodeBottomPanel.hasFocus) {
-        sellPanelBloc
+        context.read<SellPanelBloc>()
             .state
             .sellPanel[context.read<TabButtonIndexCubit>().state.slideIndex]
             .topSelectionBloc
@@ -96,7 +94,7 @@ class MainPanel extends StatelessWidget {
                 context.read<TabButtonIndexCubit>().state.slideIndex,
               );
 
-          if (checkButtonsBloC
+          if (context.read<CheckButtonsBloc>()
                   .state
                   .customeTabButton[
                       context.read<TabButtonIndexCubit>().state.slideIndex]
@@ -137,7 +135,7 @@ class MainPanel extends StatelessWidget {
                 context.read<TabButtonIndexCubit>().state.slideIndex,
               );
 
-          if (checkButtonsBloC
+          if (context.read<CheckButtonsBloc>()
                   .state
                   .customeTabButton[
                       context.read<TabButtonIndexCubit>().state.slideIndex]

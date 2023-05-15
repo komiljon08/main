@@ -12,7 +12,6 @@ class SearchPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final searchCubit = BlocProvider.of<SearchCubit>(context);
 
     return RawKeyboardListener(
       focusNode: FocusNode(),
@@ -36,7 +35,7 @@ class SearchPanel extends StatelessWidget {
         autofocus:
             context.read<FocusNodesProvider>().focusNodeSearchBox.hasFocus,
         onChanged: (value) {
-          searchCubit.getData(value);
+          context.read<SearchCubit>().getData(value);
           context
               .read<SelectorBloC>()
               .add(const SelectorClickEvent(currentIndex: -1));
